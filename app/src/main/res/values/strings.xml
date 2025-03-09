@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="login">Login</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="welcome_to_our_team_in_geecoders">Welcome to our team in Geecoders</string>
+    <string name="create_account">Create Account</string>
+    <string name="login_account">Login Account</string>
+    <string name="enter_password">enter password</string>
+    <string name="please_fill_all_fields">Please fill all fields</string>
+    <string name="register">Register</string>
+    <string name="back">Back</string>
+</resources>

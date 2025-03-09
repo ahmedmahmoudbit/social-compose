@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="login">دخول</string>
+    <string name="enter_email">ادخل الاميل</string>
+    <string name="welcome_to_our_team_in_geecoders">مرحبا بك في فريق جي كودرس</string>
+    <string name="create_account">انشاء حساب</string>
+    <string name="login_account">تسجيل الدخول</string>
+    <string name="enter_password">ادخال كلمه المرور</string>
+    <string name="please_fill_all_fields">رجاء اكمل البيانات</string>
+    <string name="register">Register</string>
+    <string name="back">Back</string>
+</resources>
