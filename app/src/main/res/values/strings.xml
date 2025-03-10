@@ -9,4 +9,18 @@
     <string name="please_fill_all_fields">Please fill all fields</string>
     <string name="register">Register</string>
     <string name="back">Back</string>
+    <string name="username_must_be_5_20_characters_long_and_contain_only_letters_numbers_and_underscores">Username must be 5-20 characters long and contain only letters, numbers, and underscores</string>
+    <string name="username_cannot_be_empty">Username cannot be empty</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="name_is_required">Name is required</string>
+    <string name="create_account_and_start_new_journey">Create Account and Start New Journey</string>
+    <string name="phone_number_must_be_at_least_10_digits">Phone number must be at least 10 digits</string>
+    <string name="password_must_be_at_least_6_characters">Password must be at least 6 characters</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="welcome">Welcome %1$s</string>
+    <string name="i_ll_check_it_out">I\'ll check it out.</string>
+    <string name="verify">Verify</string>
 </resources>

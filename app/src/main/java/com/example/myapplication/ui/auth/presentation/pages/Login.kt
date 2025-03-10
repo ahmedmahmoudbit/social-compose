@@ -80,6 +80,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
             }
         }
     }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {}

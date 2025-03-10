@@ -31,7 +31,7 @@ fun MyTopAppBar(title: String, navController: NavController) {
                 Text(
                     text = title,
                     color = mainColor,
-                    fontSize = 18.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )
             }

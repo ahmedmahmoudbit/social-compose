@@ -3,9 +3,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.myapplication.ui.auth.presentation.pages.LoginScreen
 import com.example.myapplication.ui.auth.presentation.pages.RegisterScreen
+import com.example.myapplication.ui.auth.presentation.pages.RegisterSuccessScreen
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.serializer
 
 @Composable
 fun AppSerializableHost(navController: NavHostController) {
@@ -14,6 +17,11 @@ fun AppSerializableHost(navController: NavHostController) {
     ) {
         composable<LoginScreen>{ LoginScreen(navController) }
         composable<RouteRegister> { RegisterScreen(navController) }
+//        composable<RouteSuccessScreen> { RegisterSuccessScreen(navController) }
+        composable<RouteSuccessScreen> { it ->
+            RegisterSuccessScreen(navController, it)
+        }
+
     }
 }
 
@@ -27,7 +35,6 @@ object RouteRegister
 object OTPScreen
 
 @Serializable
-data class ScreenHomeTwo(
+data class RouteSuccessScreen(
     val title: String,
-    val id: Int
 )
