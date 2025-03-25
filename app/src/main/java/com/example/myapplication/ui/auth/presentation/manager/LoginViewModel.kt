@@ -2,7 +2,7 @@ package com.example.myapplication.ui.auth.presentation.manager
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.compose.clean_art.retrofit.data.models.LoginResponse
+import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.data.models.RegisterRequest

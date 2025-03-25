@@ -2,7 +2,7 @@ package com.example.myapplication.ui.auth.data.repositories
 
 import android.content.Context
 import android.util.Log
-import com.example.compose.clean_art.retrofit.data.models.LoginResponse
+import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.data_sources.AuthDataSource
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState

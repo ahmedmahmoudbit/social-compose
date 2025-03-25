@@ -7,16 +7,20 @@ import androidx.navigation.toRoute
 import com.example.myapplication.ui.auth.presentation.pages.LoginScreen
 import com.example.myapplication.ui.auth.presentation.pages.RegisterScreen
 import com.example.myapplication.ui.auth.presentation.pages.RegisterSuccessScreen
+import com.example.myapplication.ui.home.presentation.pages.HomeScreen
+import com.example.myapplication.ui.onboarding.OnboardingScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
 
 @Composable
 fun AppSerializableHost(navController: NavHostController) {
     NavHost(
-        navController = navController, startDestination = LoginScreen
+        navController = navController, startDestination = OnBoardingRoute
     ) {
-        composable<LoginScreen>{ LoginScreen(navController) }
+        composable<OnBoardingRoute>{ OnboardingScreen(navController) }
+        composable<LoginRoute>{ LoginScreen(navController) }
         composable<RouteRegister> { RegisterScreen(navController) }
+        composable<HomeScreen> { HomeScreen(navController) }
 //        composable<RouteSuccessScreen> { RegisterSuccessScreen(navController) }
         composable<RouteSuccessScreen> { it ->
             RegisterSuccessScreen(navController, it)
@@ -26,7 +30,13 @@ fun AppSerializableHost(navController: NavHostController) {
 }
 
 @Serializable
-object LoginScreen
+object HomeScreen
+
+@Serializable
+object LoginRoute
+
+@Serializable
+object OnBoardingRoute
 
 @Serializable
 object RouteRegister

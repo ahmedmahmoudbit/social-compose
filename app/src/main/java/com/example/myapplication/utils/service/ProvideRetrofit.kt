@@ -33,7 +33,22 @@ class ProvideRetrofit {
 
         val httpClint = okhttp3.OkHttpClient.Builder().apply {
             addInterceptor(httpLoggingInterceptor)
+            addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer YOUR_TOKEN_HERE")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Accept-Language", "en")
+                    .build()
+                chain.proceed(newRequest)
+            }
         }
+
+
+//        val httpClint = okhttp3.OkHttpClient.Builder().apply {
+//
+//            addInterceptor(httpLoggingInterceptor)
+//
+//        }
 
         httpClint.apply {
             readTimeout(60,TimeUnit.SECONDS)

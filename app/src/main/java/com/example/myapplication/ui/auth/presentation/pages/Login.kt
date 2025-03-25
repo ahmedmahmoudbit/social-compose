@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.auth.presentation.pages
 
+import CacheHelper
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
@@ -41,6 +42,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
+import com.example.myapplication.utils.CacheString
 import com.example.myapplication.utils.components.AppForm
 import com.example.myapplication.utils.components.MyButton
 import com.example.myapplication.utils.components.MyText
@@ -76,6 +78,8 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
             }
 
             is LoginState.Success -> {
+                CacheHelper(context).setData(CacheString.token,data.data.token)
+                navController.navigate(RouteRegister)
 //                Log.i(TAG, "LoginScreen: ${data.data.l} ");
             }
         }
