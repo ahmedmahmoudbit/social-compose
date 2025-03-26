@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.mainColor
 
 
 @Composable
@@ -51,7 +52,7 @@ fun AppForm(
     controller: MutableState<String> = remember { mutableStateOf("") },
     type: KeyboardType = KeyboardType.Text,
     error: String? = null,
-    backgroundColor: Color = Color(0xFFfff4f1),
+    backgroundColor: Color = mainColor.copy(alpha = 0.2f),
     cornerRadius: Dp = 8.dp,
     onValidateError: Boolean = true,
     validator: ((String) -> String?)? = null,
@@ -93,8 +94,8 @@ fun AppForm(
             enabled = enabled,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = backgroundColor,
-                focusedBorderColor = Color(0xFFf5511e),
-                cursorColor = Color(0xFFf5511e)
+                focusedBorderColor = mainColor,
+                cursorColor = mainColor
             ),
             visualTransformation = if (!isVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
@@ -125,7 +126,7 @@ fun AppForm(
                         onClick = { isVisible = !isVisible }) {
                         Icon(
                             imageVector = if (isVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff,
-                            tint = Color(0xFFf5511e),
+                            tint = mainColor,
                             contentDescription = null
                         )
                     }

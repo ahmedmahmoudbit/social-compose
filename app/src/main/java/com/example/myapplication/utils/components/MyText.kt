@@ -24,7 +24,7 @@ fun MyText(
     title: String,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
-    color: Color = style.color ?: Color.Unspecified,
+    color: Color = style.color,
     size: TextUnit = style.fontSize,
     align: TextAlign = TextAlign.Start,
     maxLines: Int = Int.MAX_VALUE,

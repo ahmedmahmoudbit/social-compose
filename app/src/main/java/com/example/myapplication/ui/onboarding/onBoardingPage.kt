@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.ui.theme.scaffoldColor
 import com.example.myapplication.utils.navigation.LoginRoute
 import kotlinx.coroutines.launch
@@ -89,7 +90,7 @@ fun OnboardingScreen(navController: NavHostController) {
                     .rotate(-45f)
                     .size(220.dp, 220.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color.Black)
+                    .background(mainColor)
                     .padding(3.dp)
                     .border(
                         width = 2.dp,

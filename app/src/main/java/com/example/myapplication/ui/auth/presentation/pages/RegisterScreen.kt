@@ -53,6 +53,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -179,11 +180,6 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//                LottieAnimation(
-//                    composition = lottieLogin,
-//                    iterations = LottieConstants.IterateForever,
-//                    modifier = Modifier.height(300.dp)
-//                )
 
                 SelectImageCircle(
                     imageUri = imageUri,
@@ -192,18 +188,16 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                     },
                     pickImageLauncher = pickImageLauncher
                 )
-
                 Spacer(modifier = Modifier.height(15.dp))
-
                 MyText(
                     title = stringResource(R.string.create_account_and_start_new_journey),
                     color = mainColor,
                     size = 20.sp,
+                    maxLines = 2,
+                    align = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 )
-
                 Spacer(modifier = Modifier.height(15.dp))
-
                 AppForm(
                     controller = nameController,
                     onChanged = { nameController.value = it },
@@ -212,9 +206,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                     textInputAction = ImeAction.Next,
                     validator = { if (it.isEmpty()) context.getString(R.string.name_is_required) else null }
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 AppForm(
                     controller = emailController,
                     onChanged = { emailController.value = it },
@@ -228,9 +220,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                         ) context.getString(R.string.invalid_email) else null
                     }
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 AppForm(
                     controller = usernameController,
                     onChanged = { usernameController.value = it },
@@ -247,9 +237,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                         }
                     })
 
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 AppForm(
                     controller = phoneController,
                     onChanged = { phoneController.value = it },
@@ -258,9 +246,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                     textInputAction = ImeAction.Next,
                     validator = { if (it.isEmpty() || it.length < 10) context.getString(R.string.phone_number_must_be_at_least_10_digits) else null }
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 AppForm(
                     controller = passwordController,
                     onChanged = { passwordController.value = it },
@@ -269,9 +255,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                     textInputAction = ImeAction.Next,
                     validator = { if (it.length < 6) context.getString(R.string.password_must_be_at_least_6_characters) else null }
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 AppForm(
                     controller = confirmPassword,
                     onChanged = { confirmPassword.value = it },
@@ -280,9 +264,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                     textInputAction = ImeAction.Done,
                     validator = { if (it != passwordController.value) context.getString(R.string.passwords_do_not_match) else null }
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
-
                 MyButton(
                     text = stringResource(R.string.register),
                     isLoading = response is LoginState.Loading,
@@ -300,18 +282,17 @@ fun RegisterScreen(navController: NavHostController, viewModel: LoginViewModel =
                             viewModel.register(data)
                         }
                     },
-                    buttonColor = Color(0xFFf5511e),
+                    buttonColor = mainColor,
                     textColor = Color.White,
                     isDisabled = !isFormValid,
                     borderRadius = 8.dp.value
                 )
-
                 TextButton(
                     onClick = { navController.popBackStack() }
                 ) {
                     MyText(
                         title = stringResource(R.string.back),
-                        color = Color(0xFFf5511e),
+                        color = mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )

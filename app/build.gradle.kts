@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     kotlin("kapt")
     id("kotlin-kapt")
+    id("org.jetbrains.compose.hot-reload") version "1.0.0-alpha03"
 
 }
 

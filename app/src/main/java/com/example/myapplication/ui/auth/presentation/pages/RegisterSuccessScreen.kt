@@ -94,7 +94,7 @@ fun RegisterSuccessScreen(
                 ) {
                     MyText(
                         title = stringResource(R.string.i_ll_check_it_out),
-                        color = Color(0xFFf5511e),
+                        color = mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )

@@ -42,6 +42,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
+import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.utils.CacheString
 import com.example.myapplication.utils.components.AppForm
 import com.example.myapplication.utils.components.MyButton
@@ -115,7 +116,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
 
                 MyText(
                     title = stringResource(R.string.login_account),
-                    color = Color(0xFFf5511e),
+                    color = mainColor,
                     size = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -169,39 +170,10 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                             val data = LoginRequest(
                                 email = emailController.value,
                                 password = passwordController.value
-                            );
+                            )
                             viewModel.login(data); }
-                       
-
-//                        when (val response = loginResponse.value) {
-//                            is ResourceState.Success -> {
-//                                val data = response.data
-//
-//                                Toast.makeText(
-//                                    context,
-//                                    "Welcome ${data.data.user.name}",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                            is ResourceState.Error -> {
-//                                // معالجة الأخطاء في حالة الفشل
-//                                Toast.makeText(
-//                                    context,
-//                                    "Error: ${response.error}",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                            is ResourceState.Loading -> {
-//                                Toast.makeText(
-//                                    context,
-//                                    "Loading...",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                            is ResourceState.Init -> {}
-//                        }
                     },
-                    buttonColor = Color(0xFFf5511e),
+                    buttonColor = mainColor,
                     textColor = Color.White,
                     borderRadius = 8.dp.value
                 )
@@ -258,7 +230,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                 ) {
                     MyText(
                         title = stringResource(R.string.create_account),
-                        color = Color(0xFFf5511e),
+                        color = mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
