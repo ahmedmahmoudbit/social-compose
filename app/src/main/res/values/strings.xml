@@ -23,4 +23,23 @@
     <string name="welcome">Welcome %1$s</string>
     <string name="i_ll_check_it_out">I\'ll check it out.</string>
     <string name="verify">Verify</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="skip">Skip</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="enter_verification_code_sent_to">Enter the verification code sent to</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="resend_code_in">Resend code in</string>
+    <string name="otp_is_required">OTP is required</string>
+    <string name="invalid_otp">Invalid OTP code</string>
+    <string name="your_account_has_been_created_successfully_please_activate_your_account_via_email">Your account has been created successfully. Please activate your account via email !</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_email_to_reset">Enter your email to reset password</string>
+    <string name="send_reset_code">Send Reset Code</string>
+    <string name="reset_code_sent">Reset code sent to your email</string>
+    <string name="enter_reset_code">Enter the reset code sent to your email</string>
+    <string name="verify_reset_code">Verify Reset Code</string>
+    <string name="forgot_password_description">You can recover your password easily.</string>
+    <string name="send_verification_code">Send confirmation code</string>
 </resources>

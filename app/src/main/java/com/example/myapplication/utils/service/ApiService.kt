@@ -1,8 +1,10 @@
 package com.example.compose.utils.service
-import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.compose.utils.ApiStrings
+import com.example.myapplication.ui.auth.data.models.ForgetPasswordRequest
 import com.example.myapplication.ui.auth.data.models.LoginRequest
+import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.models.RegisterResponse
+import com.example.myapplication.ui.auth.data.models.VerifyPasswordRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -12,12 +14,6 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface ApiService {
-
-//    @GET("v2/top-headlines")
-//    suspend fun getNews(
-//        @Query("country") country: String,
-//        @Query("apiKey") apiKey: String = ApiStrings.API_KEY
-//    ): Response<NewsResponse>
 
     @POST(ApiStrings.login_URL)
     suspend fun login(
@@ -32,10 +28,19 @@ interface ApiService {
         @Part("username") username: RequestBody,
         @Part("email") email: RequestBody,
         @Part("password") password: RequestBody,
-        @Part("phoneNumber") phoneNumber: RequestBody,
+        @Part("phone") phone: RequestBody,
         @Part avatar: MultipartBody.Part?
     ): Response<RegisterResponse>
 
+    @POST(ApiStrings.forgetpassword_URL)
+    suspend fun forgetPassword(
+        @Body request: ForgetPasswordRequest
+    ): Response<RegisterResponse>
+
+    @POST(ApiStrings.verify_URL)
+    suspend fun verifyPassword(
+        @Body request: VerifyPasswordRequest
+    ): Response<RegisterResponse>
 
 
 }

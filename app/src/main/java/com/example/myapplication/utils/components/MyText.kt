@@ -53,7 +53,7 @@ fun MyText(
         Text(
             text = title,
             textAlign = align,
-            overflow = TextOverflow.Ellipsis,
+            overflow = if (maxLines == 1) TextOverflow.Ellipsis else TextOverflow.Clip,
             maxLines = maxLines,
             style = style.copy(
                 color = color,

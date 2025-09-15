@@ -39,6 +39,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
+import com.example.myapplication.ui.auth.data.models.AuthState
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
@@ -62,7 +63,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
 
     LaunchedEffect(loginResponse.value) {
         when (val data = loginResponse.value) {
-            is LoginState.Error -> {
+            is AuthState.Error -> {
                 Toast.makeText(
                     context,
                     data.error,
@@ -70,15 +71,15 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                 ).show()
             }
 
-            LoginState.Init -> {
+            AuthState.Init -> {
                 Log.i(TAG, "LoginScreen: Init ");
             }
 
-            LoginState.Loading -> {
+            AuthState.Loading -> {
                 Log.i(TAG, "LoginScreen: Loading ");
             }
 
-            is LoginState.Success -> {
+            is AuthState.Success -> {
                 CacheHelper(context).setData(CacheString.token,data.data.token)
                 navController.navigate(RouteRegister)
 //                Log.i(TAG, "LoginScreen: ${data.data.l} ");
@@ -155,7 +156,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
 
                 MyButton(
                     text = stringResource(R.string.login),
-                    isLoading = response is LoginState.Loading,
+                    isLoading = response is AuthState.Loading,
                     onClick = {
                         if (emailController.value.trim()
                                 .isEmpty() || passwordController.value.trim().isEmpty()
@@ -178,6 +179,23 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                     borderRadius = 8.dp.value
                 )
                 Spacer(modifier = Modifier.height(5.dp))
+                
+                // Forgot Password Button
+                TextButton(
+                    onClick = {
+//                        navController.navigate(ForgotPasswordRoute)
+                    }
+                ) {
+                    MyText(
+                        title = stringResource(R.string.forgot_password),
+                        color = mainColor,
+                        size = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(5.dp))
+                
                 TextButton(
                     onClick = {
                         navController.navigate(RouteRegister)

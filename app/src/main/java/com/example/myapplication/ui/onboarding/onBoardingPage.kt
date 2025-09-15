@@ -27,11 +27,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.ui.theme.scaffoldColor
+import com.example.myapplication.utils.components.MyText
 import com.example.myapplication.utils.navigation.LoginRoute
 import kotlinx.coroutines.launch
 
@@ -48,7 +50,9 @@ fun OnboardingScreen(navController: NavHostController) {
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold (
-        modifier = Modifier.fillMaxSize().systemBarsPadding()
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
     ){ paddingValues ->
         Box(
             modifier = Modifier
@@ -65,14 +69,37 @@ fun OnboardingScreen(navController: NavHostController) {
                 )
             }
 
+            TextButton(
+                modifier = Modifier.align(Alignment.TopEnd),
+                onClick = { navController.navigate(LoginRoute) }
+            ) {
+                MyText(
+                    title = stringResource(R.string.skip),
+                    color = mainColor,
+                    size = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+
+//            Text("Skip",
+//                modifier = Modifier
+//                    .align(Alignment.TopEnd)
+//                    .padding(16.dp)
+//                    .clickable {
+//                        navController.navigate(LoginRoute)
+//                    },
+//                fontSize = 16.sp,
+//                fontWeight = FontWeight.Medium,
+//                color = Color.Gray
+//            )
+
             Column (
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 HorizontalPager(
-//                    modifier = Modifier.fillMaxWidth(),
-
                     state = pagerState) { page ->
                     OnboardingPageView(pages[page])
                 }
@@ -129,7 +156,8 @@ fun DotsIndicator(currentPage: Int, totalPages: Int) {
     Row(horizontalArrangement = Arrangement.Center) {
         repeat(totalPages) { index ->
             Box(
-                modifier = Modifier.padding(start=5.dp)
+                modifier = Modifier
+                    .padding(start = 5.dp)
                     .size(if (index == currentPage) 15.dp else 15.dp)
                     .clip(CircleShape)
                     .background(if (index == currentPage) Color.Black else Color.Gray)

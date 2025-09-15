@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.data_sources.AuthDataSource
+import com.example.myapplication.ui.auth.data.models.AuthState
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.data.models.RegisterRequest
@@ -21,19 +22,19 @@ class AuthRepoImp @Inject constructor(
     private val context: Context
 ) {
 
-      fun login(userData: LoginRequest): Flow<LoginState<LoginResponse>> {
+      fun login(userData: LoginRequest): Flow<AuthState<LoginResponse>> {
         return flow {
-            emit(LoginState.Loading)
+            emit(AuthState.Loading)
 
             if (!CoreUtility.isInternetConnection(context)) {
-                emit(LoginState.Error(error = "No internet connection"))
+                emit(AuthState.Error(error = "No internet connection"))
                 return@flow
             }
 
             val response = dataSource.login(userData)
 
             if (response.isSuccessful && response.body() != null) {
-                    emit(LoginState.Success(response.body()!!))
+                    emit(AuthState.Success(response.body()!!))
 
             } else {
                 val errorBody = response.errorBody()?.string()
@@ -47,27 +48,27 @@ class AuthRepoImp @Inject constructor(
                         errorBody
                     }
                 }
-                emit(LoginState.Error(error = errorMessage))
+                emit(AuthState.Error(error = errorMessage))
             }
         }.catch { e->
-            emit(LoginState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+            emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
 
         }
     }
 
-      fun register(userData: RegisterRequest): Flow<LoginState<RegisterResponse>> {
+      fun register(userData: RegisterRequest): Flow<AuthState<RegisterResponse>> {
         return flow {
-            emit(LoginState.Loading)
+            emit(AuthState.Loading)
 
             if (!CoreUtility.isInternetConnection(context)) {
-                emit(LoginState.Error(error = "No internet connection"))
+                emit(AuthState.Error(error = "No internet connection"))
                 return@flow
             }
 
             val response = dataSource.register(userData)
 
             if (response.isSuccessful && response.body() != null) {
-                emit(LoginState.Success(response.body()!!))
+                emit(AuthState.Success(response.body()!!))
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorMessage = if (errorBody.isNullOrEmpty()) {
@@ -80,13 +81,13 @@ class AuthRepoImp @Inject constructor(
                         errorBody
                     }
                 }
-                emit(LoginState.Error(error = errorMessage))
+                emit(AuthState.Error(error = errorMessage))
             }
         }.catch { e->
 
             Log.i("AUTH", "register: ------ ${e.localizedMessage}")
 
-            emit(LoginState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+            emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
 
         }
     }

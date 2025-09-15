@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.home.presentation.manager
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.ui.auth.data.models.AuthState
 import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.data.repositories.AuthRepoImp
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: AuthRepoImp
 ): ViewModel() {
-    private val _posts : MutableStateFlow<LoginState<LoginResponse>> = MutableStateFlow(LoginState.Init)
+    private val _posts : MutableStateFlow<LoginState<LoginResponse>> = MutableStateFlow(AuthState.Init)
     val posts : StateFlow<LoginState<LoginResponse>> = _posts
 
 //    init {
