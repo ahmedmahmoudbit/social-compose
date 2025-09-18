@@ -43,4 +43,20 @@
     <string name="verify_reset_code">تأكيد رمز الإعادة</string>
     <string name="forgot_password_description">يمكنك استعاده كلمه المرور بكل سهوله.</string>
     <string name="send_verification_code">ارسال رمز التحقق</string>
+    <string name="enter_new_password">ادخل كلمه المرور الجديده</string>
+    <string name="changed_password_successfully">تم تغيير كلمة المرور بنجاح</string>
+    <string name="home_screen">صفحه الرئيسيه</string>
+    <string name="notification">الإشعارات</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="users">المستخدمون</string>
+    <string name="logOut">تسجيل الخروج</string>
+    <string name="just_now">Just now</string>
+    <string name="minute_ago">%1$d دقيقة%2$s منذ</string>
+    <string name="month_ago">%1$d شهر%2$s منذ</string>
+    <string name="hour_ago">%1$d ساعة%2$s منذ</string>
+    <string name="comments">التعلقيات</string>
+    <string name="s">ا</string>
+    <string name="day_ago">%1$d %2$s منذ</string>
+
+
 </resources>

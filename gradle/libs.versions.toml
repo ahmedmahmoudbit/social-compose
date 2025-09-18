@@ -1,6 +1,6 @@
 [versions]
 agp = "8.8.0"
-kotlin = "2.0.0"
+kotlin = "2.2.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -14,21 +14,22 @@ lottieCompose = "6.6.2"
 material = "1.12.0"
 lifecycleViewmodelKtx = "2.8.7"
 materialIconsExtended = "1.7.8"
-moshiKotlin = "1.12.0"
+moshiKotlin = "1.15.2"
 kotlinxCoroutinesAndroid = "1.8.1"
 navigationCompose = "2.8.7"
-hiltCompiler = "2.51.1"
-hiltNavigationCompose = "1.2.0"
+hiltCompiler = "2.57.1"
+hiltNavigationCompose = "1.3.0"
 constraintlayoutCompose = "1.1.0"
-okhttp = "5.0.0-alpha.2"
-retrofit = "2.9.0"
-converterGson = "2.9.0"
+okhttp = "5.1.0"
+retrofit = "3.0.0"
+converterGson = "3.0.0"
 coilCompose = "2.7.0"
 roomKtx = "2.6.1"
 roomCompiler = "2.6.1"
 serialization = "1.6.3"
 datastorePreferences = "1.1.2"
 transition = "1.5.0"
+material3 = "1.3.2"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -69,7 +70,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" , version.ref= "material3"}
 androidx-transition = { group = "androidx.transition", name = "transition", version.ref = "transition" }
 
 [plugins]

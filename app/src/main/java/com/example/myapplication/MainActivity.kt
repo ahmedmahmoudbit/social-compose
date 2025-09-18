@@ -22,12 +22,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold {
-                    PostsScreen(paddingList = it)
-                }
-//                AppSerializableHost(
-//                    navController = rememberNavController(),
-//                )
+                AppSerializableHost(
+                    navController = rememberNavController(),
+                )
             }
         }
     }

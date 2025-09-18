@@ -42,4 +42,18 @@
     <string name="verify_reset_code">Verify Reset Code</string>
     <string name="forgot_password_description">You can recover your password easily.</string>
     <string name="send_verification_code">Send confirmation code</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="changed_password_successfully">تم تغيير كلمة المرور بنجاح</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="notification">الإشعارات</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="users">المستخدمون</string>
+    <string name="logOut">تسجيل الخروج</string>
+    <string name="just_now">Just now</string>
+    <string name="minute_ago">%1$d minute%2$s ago</string>
+    <string name="month_ago">%1$d month%2$s ago</string>
+    <string name="hour_ago">%1$d hour%2$s ago</string>
+    <string name="comments">Comments</string>
+    <string name="s">s</string>
+    <string name="day_ago">%1$d day%2$s ago</string>
 </resources>

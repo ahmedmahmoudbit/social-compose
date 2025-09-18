@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +40,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.mainColor
@@ -59,7 +63,8 @@ fun OTPInput(
         focusRequester.requestFocus()
     }
 
-    BasicTextField(
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        BasicTextField(
         modifier = modifier
             .fillMaxWidth()
             .focusRequester(focusRequester)
@@ -73,6 +78,10 @@ fun OTPInput(
                 onOtpTextChange.invoke(it.text, it.text.length == otpCount)
             }
         },
+        textStyle = TextStyle(
+            textDirection = TextDirection.Ltr,
+            textAlign = TextAlign.Center
+        ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.NumberPassword,
             imeAction = ImeAction.Done
@@ -98,6 +107,7 @@ fun OTPInput(
             }
         }
     )
+    }
 }
 
 @Composable
@@ -142,7 +152,8 @@ private fun CharView(
                     color = Color.Black,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    textDirection = TextDirection.Ltr
                 )
             )
         } else if (isFocused && isCurrentPosition) {
@@ -152,7 +163,8 @@ private fun CharView(
                 style = TextStyle(
                     color = mainColor,
                     fontSize = 24.sp,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    textDirection = TextDirection.Ltr
                 )
             )
         } else {
@@ -161,7 +173,8 @@ private fun CharView(
                 style = TextStyle(
                     color = Color.Gray.copy(alpha = 0.5f),
                     fontSize = 24.sp,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    textDirection = TextDirection.Ltr
                 )
             )
         }

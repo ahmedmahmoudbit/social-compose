@@ -16,6 +16,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.mainColor
 
 @Composable
 fun MyButton(
@@ -27,7 +28,7 @@ fun MyButton(
     borderRadius: Float = 4f,
     isLoading: Boolean = false,
     isDisabled: Boolean = false,
-    buttonColor: Color = Color.Blue,
+    buttonColor: Color = mainColor,
     colorIndicator: Color = Color.White,
     widgetRight: (@Composable () -> Unit)? = null
 ) {

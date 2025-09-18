@@ -13,6 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -61,7 +62,8 @@ fun MyText(
                 fontSize = size,
                 fontWeight = fontWeight,
                 letterSpacing = 0.6.sp,
-                lineHeight = heightTxt?.sp ?: if (isTablet) 0.sp else 1.4.sp
+                lineHeight = heightTxt?.sp ?: if (isTablet) 0.sp else 1.4.sp,
+                textDirection = TextDirection.Ltr
             )
         )
     }

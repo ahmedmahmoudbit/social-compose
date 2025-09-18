@@ -20,23 +20,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val repository: HomeRepoImp,
+class ProfileViewModel @Inject constructor(
     private val cacheHelper: CacheHelper
 ) : ViewModel() {
-    private val _posts: MutableStateFlow<LoginState<PostResponse>> =
-        MutableStateFlow(AuthState.Init)
-    val posts: StateFlow<LoginState<PostResponse>> = _posts
 
-    init {
-        getPosts()
-    }
-
-    fun getPosts() {
+    fun logOut() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getPosts().collectLatest { response ->
-                _posts.value = response
-            }
+            cacheHelper.remove(CacheString.token)
         }
     }
 

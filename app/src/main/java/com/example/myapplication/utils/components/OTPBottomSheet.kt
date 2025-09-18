@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,10 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
@@ -48,14 +51,14 @@ fun OTPBottomSheet(
     email: String = "",
     isLoading: Boolean = false,
     errorMessage: String? = null,
-    onResendCode: (() -> Unit)? = null, // Callback for resend operation
-    isResendLoading: Boolean = false // Loading state for resend button
+    onResendCode: (() -> Unit)? = null,
+    isResendLoading: Boolean = false
 ) {
     var otpValue by remember { mutableStateOf("") }
     var isOTPComplete by remember { mutableStateOf(false) }
     var resendTimer by remember { mutableStateOf(60) }
     var canResend by remember { mutableStateOf(false) }
-    
+
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -79,21 +82,21 @@ fun OTPBottomSheet(
     // Auto-verify when OTP is complete
     LaunchedEffect(isOTPComplete, otpValue) {
         if (isOTPComplete && otpValue.length == 6) {
-            delay(500) // Small delay for better UX
+            delay(500)
             onOTPVerified(otpValue)
         }
     }
 
     if (isVisible) {
         ModalBottomSheet(
-            onDismissRequest = { 
+            onDismissRequest = {
                 keyboardController?.hide()
                 onDismiss()
             },
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
             dragHandle = null,
-            windowInsets = WindowInsets.ime
+//            windowInsets = WindowInsets.ime
         ) {
             Column(
                 modifier = Modifier
@@ -131,15 +134,20 @@ fun OTPBottomSheet(
                     maxLines = 3
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                OTPInput(
-                    otpText = otpValue,
-                    otpCount = 6,
-                    onOtpTextChange = { value, isComplete ->
-                        otpValue = value
-                        isOTPComplete = isComplete
-                    },
-                    errorMessage = errorMessage
-                )
+                CompositionLocalProvider(
+                    LocalLayoutDirection provides LayoutDirection.Ltr
+                ) {
+                    OTPInput(
+                        otpText = otpValue,
+                        otpCount = 6,
+                        onOtpTextChange = { value, isComplete ->
+                            otpValue = value
+                            isOTPComplete = isComplete
+                        },
+                        errorMessage = errorMessage,
+                    )
+                }
+
 
                 // Error message
                 if (errorMessage != null) {

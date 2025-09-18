@@ -1,4 +1,7 @@
+package com.example.myapplication.utils.service
+
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
@@ -15,39 +18,32 @@ private val Context.dataStore by preferencesDataStore(name = "app_preferences")
 
 @Suppress("UNCHECKED_CAST")
 @Singleton
-class CacheHelper@Inject constructor(@ApplicationContext private val context: Context) {
-
-    suspend fun setData(key: String, value: Any) {
+class CacheHelper @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+    suspend fun put(key: Preferences.Key<*>, value: Any) {
         context.dataStore.edit { preferences ->
             when (value) {
-                is String -> preferences[stringPreferencesKey(key)] = value
-                is Int -> preferences[intPreferencesKey(key)] = value
-                is Boolean -> preferences[booleanPreferencesKey(key)] = value
-                is Double -> preferences[doublePreferencesKey(key)] = value
+                is String -> preferences[key as Preferences.Key<String>] = value
+                is Int -> preferences[key as Preferences.Key<Int>] = value
+                is Boolean -> preferences[key as Preferences.Key<Boolean>] = value
+                is Double -> preferences[key as Preferences.Key<Double>] = value
                 else -> throw IllegalArgumentException("Unsupported data type")
             }
         }
     }
 
-    fun <T> getData(key: String, defaultValue: T): Flow<T> {
+    fun <T> get(key: Preferences.Key<T>, defaultValue: T): Flow<T> {
         return context.dataStore.data.map { preferences ->
-            when (defaultValue) {
-                is String -> preferences[stringPreferencesKey(key)] ?: defaultValue
-                is Int -> preferences[intPreferencesKey(key)] ?: defaultValue
-                is Boolean -> preferences[booleanPreferencesKey(key)] ?: defaultValue
-                is Double -> preferences[doublePreferencesKey(key)] ?: defaultValue
-                else -> throw IllegalArgumentException("Unsupported data type")
-            } as T
+            preferences[key] ?: defaultValue
         }
     }
 
-    suspend fun removeData(key: String) {
-        context.dataStore.edit { preferences ->
-            preferences.remove(stringPreferencesKey(key))
-        }
+    suspend fun remove(key: Preferences.Key<*>) {
+        context.dataStore.edit { preferences -> preferences.remove(key) }
     }
 
-    suspend fun clearCache() {
+    suspend fun clear() {
         context.dataStore.edit { it.clear() }
     }
 }

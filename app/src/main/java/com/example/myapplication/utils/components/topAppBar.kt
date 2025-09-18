@@ -21,7 +21,7 @@ import com.example.myapplication.ui.theme.mainColor
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun MyTopAppBar(title: String, navController: NavController) {
+fun MyTopAppBar(title: String, navController: NavController?) {
     TopAppBar(
         title = {
             Box(
@@ -37,6 +37,7 @@ fun MyTopAppBar(title: String, navController: NavController) {
             }
         },
         navigationIcon = {
+            if (navController == null) return@TopAppBar
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,

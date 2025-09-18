@@ -1,6 +1,5 @@
-package com.example.myapplication.ui.home.presentation.pages
+package com.example.myapplication.ui.auth.presentation.pages
 
-import CacheHelper
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
@@ -39,54 +38,57 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
+import com.example.myapplication.ui.auth.data.models.AuthState
 import com.example.myapplication.ui.auth.data.models.LoginRequest
-import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
-import com.example.myapplication.ui.home.presentation.manager.HomeViewModel
+import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.utils.CacheString
 import com.example.myapplication.utils.components.AppForm
 import com.example.myapplication.utils.components.MyButton
 import com.example.myapplication.utils.components.MyText
+import com.example.myapplication.utils.navigation.ForgotPasswordRoute
+import com.example.myapplication.utils.navigation.HomeScreenRoute
 import com.example.myapplication.utils.navigation.RouteRegister
 
 
 @Composable
-fun HomeScreen(
+fun LoginScreen(
     navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()) {
-//    val loginResponse = viewModel.login.collectAsState()
-//    val response = loginResponse.value
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+
+    val loginResponse = viewModel.login.collectAsState()
+    val response = loginResponse.value
     val context = LocalContext.current
     val lottieLogin by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.login))
     val emailController = remember { mutableStateOf("") }
     val passwordController = remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
-//    LaunchedEffect(loginResponse.value) {
-//        when (val data = loginResponse.value) {
-//            is LoginState.Error -> {
-//                Toast.makeText(
-//                    context,
-//                    data.error,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//
-//            LoginState.Init -> {
-//                Log.i(TAG, "LoginScreen: Init ");
-//            }
-//
-//            LoginState.Loading -> {
-//                Log.i(TAG, "LoginScreen: Loading ");
-//            }
-//
-//            is LoginState.Success -> {
-//                CacheHelper(context).setData(CacheString.token,data.data.token)
-//                navController.navigate(RouteRegister)
-////                Log.i(TAG, "LoginScreen: ${data.data.l} ");
-//            }
-//        }
-//    }
+    LaunchedEffect(loginResponse.value) {
+        when (val data = loginResponse.value) {
+            is AuthState.Error -> {
+                Toast.makeText(
+                    context,
+                    data.error,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            AuthState.Init -> {
+                Log.i(TAG, "LoginScreen: Init ");
+            }
+
+            AuthState.Loading -> {
+                Log.i(TAG, "LoginScreen: Loading ");
+            }
+
+            is AuthState.Success -> {
+
+                navController.navigate(HomeScreenRoute)
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -106,19 +108,19 @@ fun HomeScreen(
             ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 LottieAnimation(
                     composition = lottieLogin,
                     iterations = LottieConstants.IterateForever,
                     modifier = Modifier
-                        .height(350.dp)
+                        .height(250.dp)
                 )
 
                 MyText(
                     title = stringResource(R.string.login_account),
-                    color = Color(0xFFf5511e),
+                    color = mainColor,
                     size = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -153,15 +155,55 @@ fun HomeScreen(
                     onSubmit = { focusManager.clearFocus() }
                 )
 
+                Spacer(modifier = Modifier.height(10.dp))
+
+                MyButton(
+                    text = stringResource(R.string.login),
+                    isLoading = response is AuthState.Loading,
+                    onClick = {
+                        if (emailController.value.trim()
+                                .isEmpty() || passwordController.value.trim().isEmpty()
+                        ) {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.please_fill_all_fields),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@MyButton
+                        } else {
+                            val data = LoginRequest(
+                                email = emailController.value,
+                                password = passwordController.value
+                            )
+                            viewModel.login(data); }
+                    },
+                    buttonColor = mainColor,
+                    textColor = Color.White,
+                    borderRadius = 8.dp.value
+                )
+
                 Spacer(modifier = Modifier.height(5.dp))
+
+                TextButton(
+                    onClick = {
+                        navController.navigate(ForgotPasswordRoute)
+                    }
+                ) { MyText(
+                        title = stringResource(R.string.forgot_password),
+                        color = mainColor,
+                        size = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    ) }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
                 TextButton(
                     onClick = {
                         navController.navigate(RouteRegister)
                     }
-                ) {
-                    MyText(
+                ) { MyText(
                         title = stringResource(R.string.create_account),
-                        color = Color(0xFFf5511e),
+                        color = mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )

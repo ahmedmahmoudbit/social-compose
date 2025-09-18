@@ -1,5 +1,8 @@
 package com.example.myapplication.utils
 
+import androidx.datastore.preferences.core.stringPreferencesKey
+
 object CacheString {
-    const val token = "token"
+    val token = stringPreferencesKey("token")
+    val onBoarding = stringPreferencesKey("onBoarding")
 }

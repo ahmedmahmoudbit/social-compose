@@ -7,6 +7,6 @@ object ApiStrings {
     const val verify_URL = "$BASE_URL/auth/users/verify-code-and-reset-password"
     const val forgetpassword_URL = "$BASE_URL/auth/users/send-verification-code"
 
-    const val getPosts_URL = "$BASE_URL/posts/get-all-posts"
+    const val getPosts_URL = "$BASE_URL/posts/get-all-posts?page=1&limit=10"
     const val Language = "ar"
 }

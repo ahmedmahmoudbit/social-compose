@@ -6,8 +6,8 @@ import com.example.myapplication.ui.auth.domain.repositories.AuthRepo
 import com.example.compose.utils.service.ApiService
 import com.example.myapplication.ui.auth.data.models.ForgetPasswordRequest
 import com.example.myapplication.ui.auth.data.models.LoginRequest
+import com.example.myapplication.ui.auth.data.models.MessageResponse
 import com.example.myapplication.ui.auth.data.models.RegisterRequest
-import com.example.myapplication.ui.auth.data.models.RegisterResponse
 import com.example.myapplication.ui.auth.data.models.VerifyPasswordRequest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -24,7 +24,7 @@ class AuthDataSource @Inject constructor(
         return apiService.login(userData)
     }
 
-    override suspend fun register(userData: RegisterRequest): Response<RegisterResponse> {
+    override suspend fun register(userData: RegisterRequest): Response<MessageResponse> {
         return try {
             val (requestBodyMap, avatarPart) = prepareRegisterRequest(userData)
             val response = apiService.register(
@@ -49,7 +49,7 @@ class AuthDataSource @Inject constructor(
         }
     }
 
-    override suspend fun forgetPassword(data: ForgetPasswordRequest): Response<RegisterResponse> {
+    override suspend fun forgetPassword(data: ForgetPasswordRequest): Response<MessageResponse> {
         return try {
             val response = apiService.forgetPassword(data)
             if (!response.isSuccessful) {
@@ -65,7 +65,7 @@ class AuthDataSource @Inject constructor(
         }
     }
 
-    override suspend fun verifyPassword(data: VerifyPasswordRequest): Response<RegisterResponse> {
+    override suspend fun verifyPassword(data: VerifyPasswordRequest): Response<MessageResponse> {
         return try {
             val response = apiService.verifyPassword(data)
             if (!response.isSuccessful) {

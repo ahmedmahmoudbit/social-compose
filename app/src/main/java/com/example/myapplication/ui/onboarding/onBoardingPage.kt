@@ -27,14 +27,18 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.ui.theme.scaffoldColor
+import com.example.myapplication.utils.CacheString
 import com.example.myapplication.utils.components.MyText
 import com.example.myapplication.utils.navigation.LoginRoute
+import com.example.myapplication.utils.service.CacheHelper
 import kotlinx.coroutines.launch
 
 val pages = listOf(
@@ -44,10 +48,12 @@ val pages = listOf(
 )
 
 @Composable
-fun OnboardingScreen(navController: NavHostController) {
+fun OnboardingScreen(navController: NavHostController,) {
 
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val cacheHelper = remember { CacheHelper(context) }
 
     Scaffold (
         modifier = Modifier
@@ -81,7 +87,6 @@ fun OnboardingScreen(navController: NavHostController) {
                 )
             }
 
-
 //            Text("Skip",
 //                modifier = Modifier
 //                    .align(Alignment.TopEnd)
@@ -105,9 +110,7 @@ fun OnboardingScreen(navController: NavHostController) {
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 DotsIndicator(currentPage = pagerState.currentPage, totalPages = pages.size)
-
             }
-
 
 
             Box(
@@ -129,6 +132,7 @@ fun OnboardingScreen(navController: NavHostController) {
                             if (pagerState.currentPage < pages.lastIndex) {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
                             } else {
+                                cacheHelper.put(CacheString.onBoarding, "true")
                                 navController.navigate(LoginRoute)
                             }
                         }

@@ -5,19 +5,18 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dagger.hilt.android)
     kotlin("kapt")
-    id("kotlin-kapt")
-    id("org.jetbrains.compose.hot-reload") version "1.0.0-alpha03"
+    id("org.jetbrains.compose.hot-reload") version "1.0.0-beta06"
 
 }
 
 android {
     namespace = "com.example.myapplication"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.myapplication"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
