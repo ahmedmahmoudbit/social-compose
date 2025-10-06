@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.myapplication.R
-import com.example.myapplication.ui.auth.data.models.AuthState
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
 import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.utils.components.AppForm
@@ -60,15 +60,15 @@ fun ResetPasswordScreen(
 
     LaunchedEffect(forgetStates.value) {
         when (val data = forgetStates.value) {
-            AuthState.Init -> {
+            DataState.Init -> {
                 Log.i(TAG, "ResetPasswordScreen: Init ")
             }
 
-            AuthState.Loading -> {
+            DataState.Loading -> {
                 Log.i(TAG, "ResetPasswordScreen: Loading ")
             }
 
-            is AuthState.Error -> {
+            is DataState.Error -> {
                 Toast.makeText(
                     context,
                     data.error,
@@ -76,7 +76,7 @@ fun ResetPasswordScreen(
                 ).show()
             }
 
-            is AuthState.Success -> {
+            is DataState.Success -> {
                 showOTPBottomSheet = true
                 Toast.makeText(
                     context,
@@ -89,15 +89,15 @@ fun ResetPasswordScreen(
     
     LaunchedEffect(verifyStates.value) {
         when (val data = verifyStates.value) {
-            AuthState.Init -> {
+            DataState.Init -> {
                 Log.i(TAG, "ResetPasswordScreen: Init ")
             }
 
-            AuthState.Loading -> {
+            DataState.Loading -> {
                 Log.i(TAG, "ResetPasswordScreen: Loading ")
             }
 
-            is AuthState.Error -> {
+            is DataState.Error -> {
                 Toast.makeText(
                     context,
                     data.error,
@@ -105,7 +105,7 @@ fun ResetPasswordScreen(
                 ).show()
             }
 
-            is AuthState.Success -> {
+            is DataState.Success -> {
                 Toast.makeText(
                     context,
                     context.getString(R.string.changed_password_successfully),
@@ -175,7 +175,7 @@ fun ResetPasswordScreen(
 
         MyButton(
             text = when (forgetStates.value) {
-                is AuthState.Loading -> "جاري الإرسال..."
+                is DataState.Loading -> "جاري الإرسال..."
                 else -> "إرسال رمز التحقق"
             },
             onClick = {
@@ -183,7 +183,7 @@ fun ResetPasswordScreen(
                     viewModel.forgetPassword(emailController.value)
                 }
             },
-            isLoading = forgetStates.value is AuthState.Loading,
+            isLoading = forgetStates.value is DataState.Loading,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -214,11 +214,11 @@ fun ResetPasswordScreen(
                 )
             },
             email = emailController.value,
-            isLoading = verifyStates.value is AuthState.Loading,
+            isLoading = verifyStates.value is DataState.Loading,
             onResendCode = {
                 viewModel.forgetPassword(emailController.value)
             },
-            isResendLoading = verifyStates.value is AuthState.Loading
+            isResendLoading = verifyStates.value is DataState.Loading
         )
     }
 

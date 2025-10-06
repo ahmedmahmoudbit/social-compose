@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,10 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -32,17 +36,15 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.theme.mainColor
 import com.example.myapplication.utils.components.MyText
 import com.example.myapplication.utils.components.MyTopAppBar
+import com.example.myapplication.utils.components.colors.mainColor
 import com.example.myapplication.utils.navigation.RouteSuccessScreen
 
 @Composable
 fun RegisterSuccessScreen(
-    navController: NavHostController,
-    it : NavBackStackEntry
-    )
-{
-
+    navController: NavHostController = rememberNavController(),
+    it: NavBackStackEntry
+) {
     val args = it.toRoute<RouteSuccessScreen>()
-
     val lottieRegister by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.register)
     )
@@ -77,14 +79,12 @@ fun RegisterSuccessScreen(
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                MyText(
-                    title = args.title,
-                    color = mainColor,
-                    align = TextAlign.Center,
-                    size = 20.sp,
+                Text(
+                    text = args.title,
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-
                 Spacer(modifier = Modifier.height(5.dp))
 
                 TextButton(
@@ -94,7 +94,7 @@ fun RegisterSuccessScreen(
                 ) {
                     MyText(
                         title = stringResource(R.string.i_ll_check_it_out),
-                        color = mainColor,
+                        color = MaterialTheme.colorScheme.mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )

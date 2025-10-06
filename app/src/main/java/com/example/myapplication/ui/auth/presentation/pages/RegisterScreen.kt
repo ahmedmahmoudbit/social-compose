@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.auth.presentation.pages
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -33,18 +32,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
-import com.example.myapplication.ui.auth.data.models.AuthState
-import com.example.myapplication.ui.auth.data.models.LoginState
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.auth.data.models.RegisterRequest
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
 import com.example.myapplication.ui.theme.mainColor
@@ -57,7 +51,6 @@ import com.example.myapplication.utils.components.SelectImageCircle
 import com.example.myapplication.utils.navigation.RouteRegister
 import com.example.myapplication.utils.navigation.RouteSuccessScreen
 import com.example.myapplication.utils.resource.Utils
-import kotlin.math.log
 
 @Composable
 fun RegisterScreen(navController: NavHostController= rememberNavController(), viewModel: LoginViewModel = hiltViewModel()) {
@@ -110,14 +103,14 @@ fun RegisterScreen(navController: NavHostController= rememberNavController(), vi
 
     LaunchedEffect(registerResponse.value) {
         when (val res = registerResponse.value) {
-            is AuthState.Error -> {
+            is DataState.Error -> {
                 otpErrorMessage = res.error
             }
-            AuthState.Init -> {
+            DataState.Init -> {
             }
-            AuthState.Loading -> {
+            DataState.Loading -> {
             }
-            is AuthState.Success -> {
+            is DataState.Success -> {
                 navController.navigate(RouteSuccessScreen(title = context.getString(R.string.your_account_has_been_created_successfully_please_activate_your_account_via_email))) {
                     popUpTo(RouteRegister::class) {
                         inclusive = true
@@ -243,7 +236,7 @@ fun RegisterScreen(navController: NavHostController= rememberNavController(), vi
                 Spacer(modifier = Modifier.height(5.dp))
                 MyButton(
                     text = stringResource(R.string.register),
-                    isLoading = response is AuthState.Loading,
+                    isLoading = response is DataState.Loading,
                     onClick = {
                         if (isFormValid) {
                             val avatar = imageUri?.let { Utils.imageToMultipart(it, context) }
@@ -258,7 +251,6 @@ fun RegisterScreen(navController: NavHostController= rememberNavController(), vi
                             viewModel.register(data)
                         }
                     },
-                    buttonColor = mainColor,
                     textColor = Color.White,
                     isDisabled = !isFormValid,
                     borderRadius = 8.dp.value
@@ -295,7 +287,7 @@ fun RegisterScreen(navController: NavHostController= rememberNavController(), vi
                 showOTPBottomSheet = false
             },
             email = emailController.value,
-            isLoading = response is AuthState.Loading,
+            isLoading = response is DataState.Loading,
             errorMessage = otpErrorMessage
         )
     }

@@ -5,3 +5,12 @@ data class VerifyPasswordRequest(
     val code: String,
     val newPassword: String,
 )
+
+data class DeletePostRequest(
+    val postId: String,
+)
+
+data class AddCommentRequest(
+    val text: String,
+    val postId: String,
+)

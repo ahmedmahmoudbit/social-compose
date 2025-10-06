@@ -10,8 +10,14 @@ class HomeRepoDataSource @Inject constructor(
     private val apiService: ApiService
 ) : HomeRepo {
 
-    override suspend fun getPosts(): Response<PostResponse> {
-        return apiService.getAllPosts()
+    override suspend fun getPosts(
+        limit: Int,
+        page: Int
+    ): Response<PostResponse> {
+        return apiService.getAllPosts(
+            limit = limit,
+            page = page
+        )
     }
 
 }

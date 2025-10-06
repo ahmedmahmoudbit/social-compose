@@ -10,3 +10,16 @@ data class RegisterRequest(
     val phone: String,
     val avatar: MultipartBody.Part?
 )
+
+data class UpdateRequest(
+    val fullName: String,
+    val email: String,
+    val phone: String,
+    val avatar: MultipartBody.Part?
+)
+
+data class PostRequest(
+    val title: String,
+    val desc: String,
+    val img: MultipartBody.Part?
+)

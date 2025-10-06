@@ -50,10 +50,46 @@
     <string name="users">المستخدمون</string>
     <string name="logOut">تسجيل الخروج</string>
     <string name="just_now">Just now</string>
-    <string name="minute_ago">%1$d minute%2$s ago</string>
-    <string name="month_ago">%1$d month%2$s ago</string>
-    <string name="hour_ago">%1$d hour%2$s ago</string>
-    <string name="comments">Comments</string>
-    <string name="s">s</string>
-    <string name="day_ago">%1$d day%2$s ago</string>
+    <string name="unknown_date">Unknown date</string>
+
+    <!-- Time Ago Format -->
+    <string name="time_ago">%1$d %2$s ago</string>
+    <string name="unit_day_dual">unit day dual</string>
+    <string name="unit_month_dual">unit month dual</string>
+    <string name="comments">comments</string>
+    <string name="unit_year_dual">unit year dual</string>
+
+    <!-- Units - English -->
+    <string name="unit_minute_singular">minute</string>
+    <string name="unit_minute_plural">minutes</string>
+    <string name="unit_hour_singular">hour</string>
+    <string name="unit_hour_plural">hours</string>
+    <string name="unit_day_singular">day</string>
+    <string name="unit_day_plural">days</string>
+    <string name="unit_week_singular">week</string>
+    <string name="unit_week_plural">weeks</string>
+    <string name="unit_month_singular">month</string>
+    <string name="unit_month_plural">months</string>
+    <string name="unit_year_singular">year</string>
+    <string name="unit_year_plural">years</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="change_profile">Change Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="enter_your_new_password">Enter Your New Password</string>
+    <string name="enter_your_old_password">Enter Your Old Password</string>
+    <string name="add_post">Add Post</string>
+    <string name="enter_your_description">Enter Your Description</string>
+    <string name="enter_your_title">Enter Your Title</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="theme_settings">Theme Settings</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="system_mode">System Default</string>
+    <string name="choose_theme">Choose Your Preferred Theme</string>
+    <string name="add_new_comment">Add new comment ...</string>
+    <string name="send_comment">Send Comment</string>
+
 </resources>

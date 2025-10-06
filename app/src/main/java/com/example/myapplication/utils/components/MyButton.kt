@@ -17,6 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.mainColor
+import com.example.myapplication.utils.components.colors.mainColor
 
 @Composable
 fun MyButton(
@@ -28,7 +29,7 @@ fun MyButton(
     borderRadius: Float = 4f,
     isLoading: Boolean = false,
     isDisabled: Boolean = false,
-    buttonColor: Color = mainColor,
+    buttonColor: Color = MaterialTheme.colorScheme.mainColor,
     colorIndicator: Color = Color.White,
     widgetRight: (@Composable () -> Unit)? = null
 ) {
@@ -43,8 +44,7 @@ fun MyButton(
             disabledContainerColor = buttonColor.copy(alpha = 0.6f),
             disabledContentColor = textColor.copy(alpha = 0.6f)
         ),
-        modifier = Modifier.padding(8.dp)
-
+        modifier = Modifier
             .height(height.dp)
             .then(if (width != null) Modifier.width(width.dp) else Modifier.fillMaxWidth()),
         enabled = !isDisabled && !isLoading,

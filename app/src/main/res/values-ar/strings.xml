@@ -50,13 +50,47 @@
     <string name="profile">الملف الشخصي</string>
     <string name="users">المستخدمون</string>
     <string name="logOut">تسجيل الخروج</string>
-    <string name="just_now">Just now</string>
-    <string name="minute_ago">%1$d دقيقة%2$s منذ</string>
-    <string name="month_ago">%1$d شهر%2$s منذ</string>
-    <string name="hour_ago">%1$d ساعة%2$s منذ</string>
-    <string name="comments">التعلقيات</string>
-    <string name="s">ا</string>
-    <string name="day_ago">%1$d %2$s منذ</string>
 
+    <string name="just_now">الآن</string>
+    <string name="unknown_date">تاريخ غير معروف</string>
+    <string name="comments">الكومنتات</string>
 
+    <!-- Time Ago Format -->
+    <string name="time_ago">منذ %1$d %2$s</string>
+
+    <!-- Units - Arabic -->
+    <string name="unit_minute_singular">دقيقة</string>
+    <string name="unit_minute_plural">دقائق</string>
+    <string name="unit_hour_singular">ساعة</string>
+    <string name="unit_hour_plural">ساعات</string>
+    <string name="unit_day_singular">يوم</string>
+    <string name="unit_day_dual">يومين</string>
+    <string name="unit_day_plural">أيام</string>
+    <string name="unit_week_singular">أسبوع</string>
+    <string name="unit_week_plural">أسابيع</string>
+    <string name="unit_month_singular">شهر</string>
+    <string name="unit_month_dual">شهرين</string>
+    <string name="unit_month_plural">أشهر</string>
+    <string name="unit_year_singular">سنة</string>
+    <string name="unit_year_dual">سنتين</string>
+    <string name="unit_year_plural">سنوات</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="change_profile">تعديل الملف الشخصي</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="enter_your_new_password">أدخل كلمة المرور الجديدة</string>
+    <string name="enter_your_old_password">أدخل كلمة المرور القديمة</string>
+    <string name="add_post">اضافه منشور</string>
+    <string name="enter_your_description">أدخل وصفك</string>
+    <string name="enter_your_title">أدخل عنوانك</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="edit">تعديل</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+    <string name="theme_settings">إعدادات الثيم</string>
+    <string name="light_mode">الوضع الفاتح</string>
+    <string name="dark_mode">الوضع الداكن</string>
+    <string name="system_mode">تبع النظام</string>
+    <string name="choose_theme">اختر الثيم المفضل</string>
+    <string name="add_new_comment">Add new comment ...</string>
+    <string name="send_comment">Send Comment</string>
 </resources>

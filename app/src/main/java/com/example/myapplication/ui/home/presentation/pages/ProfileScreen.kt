@@ -1,46 +1,100 @@
 package com.example.myapplication.ui.home.presentation.pages
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import android.widget.Toast
+import kotlinx.serialization.encodeToString
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.example.myapplication.R
-import com.example.myapplication.ui.auth.data.models.AuthState
-import com.example.myapplication.ui.home.presentation.manager.HomeViewModel
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.home.presentation.manager.ProfileViewModel
+import com.example.myapplication.ui.theme.mainColor
+import com.example.myapplication.ui.users.data.model.Users
+import com.example.myapplication.utils.components.ImageNetwork
 import com.example.myapplication.utils.components.MyButton
-import com.example.myapplication.utils.navigation.AppViewModel
+import com.example.myapplication.utils.components.MyText
+import com.example.myapplication.utils.components.colors.cardColorBackground
+import com.example.myapplication.utils.components.page.ErrorPage
+import com.example.myapplication.utils.components.page.LoadingPage
+import com.example.myapplication.utils.navigation.ChangePasswordRoute
+import com.example.myapplication.utils.navigation.ChangeProfileRoute
 import com.example.myapplication.utils.navigation.LoginRoute
+import com.example.myapplication.utils.navigation.ThemeSettingsRoute
+import kotlinx.serialization.json.Json
+import verticalSpace
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel<ProfileViewModel>()
 ) {
+
+    val response = viewModel.user.collectAsState()
+    val responseDelete = viewModel.message.collectAsState()
+    val status = response.value
+    val statusDelete = responseDelete.value
+
+    LaunchedEffect(Unit) {
+        viewModel.getProfile()
+    }
+
+    LaunchedEffect(statusDelete) {
+        when (statusDelete) {
+            DataState.Init -> {}
+            DataState.Loading -> {}
+            is DataState.Error -> {}
+            is DataState.Success -> {
+                Toast.makeText(
+                    navController.context,
+                    statusDelete.data.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+                navController.navigate(LoginRoute) {
+                    popUpTo(0)
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -49,120 +103,122 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-//        // Profile Image
-//        AsyncImage(
-//            model = "https://via.placeholder.com/150",
-//            contentDescription = "Profile Picture",
-//            modifier = Modifier
-//                .size(120.dp)
-//                .clip(CircleShape),
-//            contentScale = ContentScale.Crop
-//        )
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        // Name
-//        Text(
-//            text = "أحمد محمود",
-//            fontSize = 24.sp,
-//            fontWeight = FontWeight.Bold,
-//            color = MaterialTheme.colorScheme.onSurface
-//        )
-//
-//        Text(
-//            text = "@ahmed_mahmoud",
-//            fontSize = 16.sp,
-//            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-//        )
-//
-//        Spacer(modifier = Modifier.height(24.dp))
-//
-//        // Profile Info Cards
-//        ProfileInfoCard(
-//            icon = Icons.Default.Email,
-//            title = "البريد الإلكتروني",
-//            value = "ahmed@example.com"
-//        )
-//
-//        Spacer(modifier = Modifier.height(12.dp))
-//
-//        ProfileInfoCard(
-//            icon = Icons.Default.Phone,
-//            title = "رقم الهاتف",
-//            value = "+966 50 123 4567"
-//        )
-//
-//        Spacer(modifier = Modifier.height(12.dp))
-//
-//        ProfileInfoCard(
-//            icon = Icons.Default.Person,
-//            title = "نبذة شخصية",
-//            value = "مطور تطبيقات موبايل بخبرة 5 سنوات"
-//        )
+        when (status) {
+            is DataState.Error -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        ErrorPage(
+                            message = status.error,
+                            onRetry = { viewModel.getProfile() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        )
 
-        Spacer(modifier = Modifier.height(24.dp))
-//        Button(
-//            onClick = { /* TODO: Handle edit profile */ },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(50.dp)
-//        ) {
-//            Icon(
-//                imageVector = Icons.Default.Edit,
-//                contentDescription = "Edit",
-//                modifier = Modifier.size(20.dp)
-//            )
-//            Spacer(modifier = Modifier.width(8.dp))
-//            Text(
-//                text = "تعديل الملف الشخصي",
-//                fontSize = 16.sp
-//            )
-//        }
-        MyButton(
-            text = stringResource(R.string.logOut),
-            onClick = { viewModel.logOut() },
-        )
+                        MyButton(
+                            text = stringResource(R.string.logOut),
+                            onClick = { viewModel.logOut() },
+                        )
+                    }
+                }
+            }
+
+            is DataState.Loading -> LoadingPage()
+            is DataState.Init -> LoadingPage()
+            is DataState.Success -> {
+                val data = status.data.data
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    ImageNetwork(
+                        image = data.avatar,
+                        size = 150.dp,
+                        onClick = { navController.navigate(ThemeSettingsRoute) }
+                    )
+                    8.verticalSpace
+                    Divider(modifier = Modifier.fillMaxWidth())
+                    8.verticalSpace
+                    InfoItem(
+                        txt = data.username,
+                        icon = Icons.Default.Person
+                    )
+                    InfoItem(
+                        txt = data.fullName,
+                        icon = Icons.Default.PersonPin
+                    )
+                    InfoItem(
+                        txt = data.email,
+                        icon = Icons.Default.Email
+                    )
+                    InfoItem(
+                        txt = data.phone!!,
+                        icon = Icons.Default.Phone
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    MyButton(
+                        text = stringResource(R.string.change_profile),
+                        onClick = {
+                            val json = Json.encodeToString<Users>(data)
+                            navController.navigate(ChangeProfileRoute(json))
+                        },
+                    )
+                    MyButton(
+                        text = stringResource(R.string.change_password),
+                        onClick = { navController.navigate(ChangePasswordRoute) },
+                    )
+                    MyButton(
+                        text = stringResource(R.string.logOut),
+                        onClick = { viewModel.logOut() },
+                    )
+                    MyButton(
+                        buttonColor = Color(0xFFAF352D),
+                        text = stringResource(R.string.delete_account),
+                        isLoading = viewModel.message.collectAsState().value is DataState.Loading,
+                        onClick = { viewModel.deleteAccount() },
+                    )
+                }
+            }
+        }
+
     }
 }
 
 @Composable
-private fun ProfileInfoCard(
+private fun InfoItem(
+    txt: String,
     icon: ImageVector,
-    title: String,
-    value: String
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        Text(
+            text = txt,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(Modifier.width(10.dp))
+        Icon(
+            imageVector = icon,
+            contentDescription = "Home Icon",
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = title,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(
-                    text = title,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                )
-                Text(
-                    text = value,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        }
+                .size(38.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.cardColorBackground)
+                .padding(8.dp),
+            tint = MaterialTheme.colorScheme.primary
+        )
     }
 }

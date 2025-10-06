@@ -3,7 +3,7 @@ import android.content.Context
 import android.util.Log
 import com.example.myapplication.simple_api.api.ApiCall
 import com.example.myapplication.ui.auth.data.data_sources.AuthDataSource
-import com.example.myapplication.ui.auth.data.models.AuthState
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.auth.data.models.ForgetPasswordRequest
 import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.models.LoginRequest
@@ -61,17 +61,17 @@ class AuthRepoImp @Inject constructor(
 
       fun register(userData: RegisterRequest): Flow<LoginState<MessageResponse>> {
         return flow {
-            emit(AuthState.Loading)
+            emit(DataState.Loading)
 
             if (!CoreUtility.isInternetConnection(context)) {
-                emit(AuthState.Error(error = "No internet connection"))
+                emit(DataState.Error(error = "No internet connection"))
                 return@flow
             }
 
             try {
                 val response = dataSource.register(userData)
                 if (response.isSuccessful && response.body() != null) {
-                    emit(AuthState.Success(response.body()!!))
+                    emit(DataState.Success(response.body()!!))
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = if (errorBody.isNullOrEmpty()) {
@@ -84,23 +84,23 @@ class AuthRepoImp @Inject constructor(
                             errorBody
                         }
                     }
-                    emit(AuthState.Error(error = errorMessage))
+                    emit(DataState.Error(error = errorMessage))
                 }
             } catch (e: Exception) {
-                emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+                emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
             }
         }.catch { e->
             Log.e("AUTH", "register: ------ Flow exception: ${e.message}", e)
-            emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+            emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
         }
     }
 
-    fun forgetPassword(userData: ForgetPasswordRequest): Flow<AuthState<String>> {
+    fun forgetPassword(userData: ForgetPasswordRequest): Flow<DataState<String>> {
         return flow {
-            emit(AuthState.Loading)
+            emit(DataState.Loading)
 
             if (!CoreUtility.isInternetConnection(context)) {
-                emit(AuthState.Error(error = "No internet connection"))
+                emit(DataState.Error(error = "No internet connection"))
                 return@flow
             }
 
@@ -108,7 +108,7 @@ class AuthRepoImp @Inject constructor(
                 val response = dataSource.forgetPassword(userData)
                 
                 if (response.isSuccessful && response.body() != null) {
-                    emit(AuthState.Success("تم إرسال رمز التحقق بنجاح"))
+                    emit(DataState.Success("تم إرسال رمز التحقق بنجاح"))
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = if (errorBody.isNullOrEmpty()) {
@@ -121,22 +121,22 @@ class AuthRepoImp @Inject constructor(
                             errorBody
                         }
                     }
-                    emit(AuthState.Error(error = errorMessage))
+                    emit(DataState.Error(error = errorMessage))
                 }
             } catch (e: Exception) {
-                emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+                emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
             }
         }.catch { e->
-            emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+            emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
         }
     }
 
-    fun verifyPassword(userData: VerifyPasswordRequest): Flow<AuthState<String>> {
+    fun verifyPassword(userData: VerifyPasswordRequest): Flow<DataState<String>> {
         return flow {
-            emit(AuthState.Loading)
+            emit(DataState.Loading)
 
             if (!CoreUtility.isInternetConnection(context)) {
-                emit(AuthState.Error(error = "No internet connection"))
+                emit(DataState.Error(error = "No internet connection"))
                 return@flow
             }
 
@@ -144,7 +144,7 @@ class AuthRepoImp @Inject constructor(
                 val response = dataSource.verifyPassword(userData)
                 
                 if (response.isSuccessful && response.body() != null) {
-                    emit(AuthState.Success("تم تغيير كلمة المرور بنجاح"))
+                    emit(DataState.Success("تم تغيير كلمة المرور بنجاح"))
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = if (errorBody.isNullOrEmpty()) {
@@ -157,13 +157,13 @@ class AuthRepoImp @Inject constructor(
                             errorBody
                         }
                     }
-                    emit(AuthState.Error(error = errorMessage))
+                    emit(DataState.Error(error = errorMessage))
                 }
             } catch (e: Exception) {
-                emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+                emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
             }
         }.catch { e->
-            emit(AuthState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
+            emit(DataState.Error(error = e.localizedMessage ?: "Error Fetching Data"))
         }
     }
 

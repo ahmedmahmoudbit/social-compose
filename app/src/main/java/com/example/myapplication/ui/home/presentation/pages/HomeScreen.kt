@@ -2,6 +2,7 @@ package com.example.myapplication.ui.home.presentation.pages
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,14 +25,15 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -43,13 +46,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
-import com.example.myapplication.ui.auth.data.models.AuthState
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.auth.data.models.LoginState
 import com.example.myapplication.ui.home.data.model.PostResponse
 import com.example.myapplication.ui.home.domain.uc.navigationItems
 import com.example.myapplication.ui.home.presentation.manager.HomeViewModel
 import com.example.myapplication.ui.home.presentation.widgets.CardPost
+import com.example.myapplication.ui.users.presentation.pages.UsersScreen
 import com.example.myapplication.utils.components.MyTopAppBar
+import com.example.myapplication.utils.components.colors.cardColorBackground
+import verticalSpace
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
@@ -62,31 +68,11 @@ fun HomeScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
     val postsCollection = viewModel.posts.collectAsState()
 
-//    LaunchedEffect(loginResponse.value) {
-//        when (val data = loginResponse.value) {
-//            is LoginState.Error -> {
-//                Toast.makeText(
-//                    context,
-//                    data.error,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//
-//            LoginState.Init -> {
-//                Log.i(TAG, "LoginScreen: Init ");
-//            }
-//
-//            LoginState.Loading -> {
-//                Log.i(TAG, "LoginScreen: Loading ");
-//            }
-//
-//            is LoginState.Success -> {
-//                CacheHelper(context).setData(CacheString.token,data.data.token)
-//                navController.navigate(RouteRegister)
-////                Log.i(TAG, "LoginScreen: ${data.data.l} ");
-//            }
-//        }
-//    }
+    LaunchedEffect(selectedTab) {
+        if (selectedTab == 0) { // Home tab
+            viewModel.forceRefreshFromServer()
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -94,7 +80,7 @@ fun HomeScreen(
             MyTopAppBar(
                 title = when (selectedTab) {
                     0 -> stringResource(R.string.home_screen)
-                    1 -> stringResource(R.string.notification)
+                    1 -> stringResource(R.string.add_post)
                     2 -> stringResource(R.string.users)
                     3 -> stringResource(R.string.profile)
                     else -> stringResource(R.string.home_screen)
@@ -103,18 +89,21 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.cardColorBackground,
+            ) {
                 navigationItems.forEachIndexed { index, item ->
                     NavigationBarItem(
                         icon = {
                             Icon(
                                 imageVector = item.icon,
-                                contentDescription = item.title
+                                contentDescription = stringResource(item.title)
                             )
                         },
-                        label = { Text(item.title) },
+                        label = { Text(stringResource(item.title)) },
                         selected = selectedTab == index,
-                        onClick = { selectedTab = index }
+                        onClick = { selectedTab = index },
+
                     )
                 }
             }
@@ -131,8 +120,8 @@ fun HomeScreen(
                 },
         ) {
             when (selectedTab) {
-                0 -> HomeContent(postsCollection = postsCollection.value,)
-                1 -> NotificationScreen()
+                0 -> HomeContent(postsCollection = postsCollection.value, navController = navController)
+                1 -> AddPostScreen(showBackButton = false)
                 2 -> UsersScreen()
                 3 -> ProfileScreen(navController = navController)
             }
@@ -145,9 +134,26 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     postsCollection: LoginState<PostResponse>,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()) {
-
     val pullRefreshState = rememberPullToRefreshState()
+    val isLoadingMore by viewModel.isLoadingMore.collectAsState()
+    val listState = rememberLazyListState()
+
+    // كشف تلقائي عن نهاية القائمة
+    LaunchedEffect(listState) {
+        snapshotFlow { 
+            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index 
+        }.collect { lastVisibleIndex ->
+            if (lastVisibleIndex != null) {
+                val totalItems = listState.layoutInfo.totalItemsCount
+                // عندما نصل للعنصر قبل الأخير
+                if (lastVisibleIndex >= totalItems - 2 && totalItems > 0) {
+                    viewModel.loadMorePosts()
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -155,7 +161,7 @@ private fun HomeContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (postsCollection) {
-            is AuthState.Loading -> {
+            is DataState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -176,7 +182,7 @@ private fun HomeContent(
                     }
                 }
             }
-            is AuthState.Success -> {
+            is DataState.Success -> {
                 val posts = postsCollection.data.posts
                 if (posts.isEmpty()) {
                     Box(
@@ -194,14 +200,14 @@ private fun HomeContent(
                     PullToRefreshBox(
                         modifier = Modifier.fillMaxSize(),
                         state = pullRefreshState,
-                        onRefresh = { viewModel.getPosts() },
-                        isRefreshing = postsCollection is AuthState.Loading,
-//                        indicatorPadding = 16.dp
+                        onRefresh = { viewModel.refreshData() },
+                        isRefreshing = false,
                     ) {
                         LazyColumn(
+                            state = listState,
                             modifier = Modifier.fillMaxSize(),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             items(posts) { post ->
                                 CardPost(
@@ -209,14 +215,36 @@ private fun HomeContent(
                                         .fillMaxWidth()
                                         .wrapContentHeight()
                                         .padding(vertical = 12.dp),
-                                    post = post
+                                    post = post,
+                                    navController = navController
                                 )
+                            }
+                            
+                            // عنصر Loading في النهاية
+                            item {
+                                if (isLoadingMore) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(40.dp),
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                }
+                            }
+                            
+                            item {
+                                10.verticalSpace()
                             }
                         }
                     }
                 }
             }
-            is AuthState.Error -> {
+            is DataState.Error -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -241,8 +269,7 @@ private fun HomeContent(
                     }
                 }
             }
-            
-            is AuthState.Init -> {
+            is DataState.Init -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center

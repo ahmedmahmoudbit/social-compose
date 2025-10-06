@@ -29,20 +29,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.myapplication.R
-import com.example.myapplication.ui.auth.data.models.AuthState
+import com.example.myapplication.ui.auth.data.models.DataState
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.presentation.manager.LoginViewModel
-import com.example.myapplication.ui.theme.mainColor
-import com.example.myapplication.utils.CacheString
 import com.example.myapplication.utils.components.AppForm
 import com.example.myapplication.utils.components.MyButton
 import com.example.myapplication.utils.components.MyText
@@ -50,11 +49,11 @@ import com.example.myapplication.utils.navigation.ForgotPasswordRoute
 import com.example.myapplication.utils.navigation.HomeScreenRoute
 import com.example.myapplication.utils.navigation.RouteRegister
 
-
+@Preview
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
-    viewModel: LoginViewModel = hiltViewModel()
+    navController: NavHostController = NavHostController(LocalContext.current),
+    viewModel: LoginViewModel = hiltViewModel<LoginViewModel>()
 ) {
 
     val loginResponse = viewModel.login.collectAsState()
@@ -67,7 +66,7 @@ fun LoginScreen(
 
     LaunchedEffect(loginResponse.value) {
         when (val data = loginResponse.value) {
-            is AuthState.Error -> {
+            is DataState.Error -> {
                 Toast.makeText(
                     context,
                     data.error,
@@ -75,15 +74,15 @@ fun LoginScreen(
                 ).show()
             }
 
-            AuthState.Init -> {
+            DataState.Init -> {
                 Log.i(TAG, "LoginScreen: Init ");
             }
 
-            AuthState.Loading -> {
+            DataState.Loading -> {
                 Log.i(TAG, "LoginScreen: Loading ");
             }
 
-            is AuthState.Success -> {
+            is DataState.Success -> {
 
                 navController.navigate(HomeScreenRoute)
             }
@@ -120,7 +119,7 @@ fun LoginScreen(
 
                 MyText(
                     title = stringResource(R.string.login_account),
-                    color = mainColor,
+//                    color = mainColor,
                     size = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -129,7 +128,7 @@ fun LoginScreen(
 
                 MyText(
                     title = stringResource(R.string.welcome_to_our_team_in_geecoders),
-                    color = Color.DarkGray,
+//                    color = Color.DarkGray,
                     size = 12.sp,
                 )
 
@@ -159,7 +158,7 @@ fun LoginScreen(
 
                 MyButton(
                     text = stringResource(R.string.login),
-                    isLoading = response is AuthState.Loading,
+                    isLoading = response is DataState.Loading,
                     onClick = {
                         if (emailController.value.trim()
                                 .isEmpty() || passwordController.value.trim().isEmpty()
@@ -177,7 +176,6 @@ fun LoginScreen(
                             )
                             viewModel.login(data); }
                     },
-                    buttonColor = mainColor,
                     textColor = Color.White,
                     borderRadius = 8.dp.value
                 )
@@ -190,7 +188,7 @@ fun LoginScreen(
                     }
                 ) { MyText(
                         title = stringResource(R.string.forgot_password),
-                        color = mainColor,
+//                        color = mainColor,
                         size = 14.sp,
                         fontWeight = FontWeight.Normal
                     ) }
@@ -203,7 +201,7 @@ fun LoginScreen(
                     }
                 ) { MyText(
                         title = stringResource(R.string.create_account),
-                        color = mainColor,
+//                        color = mainColor,
                         size = 15.sp,
                         fontWeight = FontWeight.Bold
                     )

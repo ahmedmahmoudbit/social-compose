@@ -1,4 +1,5 @@
 package com.example.myapplication.ui.home.domain.repositories
+
 import com.example.myapplication.ui.auth.data.models.LoginResponse
 import com.example.myapplication.ui.auth.data.models.LoginRequest
 import com.example.myapplication.ui.auth.data.models.RegisterRequest
@@ -7,5 +8,8 @@ import com.example.myapplication.ui.home.data.model.PostResponse
 import retrofit2.Response
 
 interface HomeRepo {
-    suspend fun getPosts() : Response<PostResponse>
+    suspend fun getPosts(
+        limit: Int,
+        page: Int
+    ): Response<PostResponse>
 }
